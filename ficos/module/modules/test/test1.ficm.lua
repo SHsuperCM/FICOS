@@ -13,9 +13,4 @@ thread(module, function()
     print("yippe!!!")
 end)
 
-exec(module, function()
-    sleep(10)
-    os:shutdown()
-end)
-
 return module
