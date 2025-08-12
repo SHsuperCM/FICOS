@@ -6,7 +6,7 @@
 ---@class FICModule
 ---@field id string
 ---@field version table
----@field oad fun()
+---@field load fun()
 ---@field unload fun()
 FICModule = {
     id = "moduleid",
