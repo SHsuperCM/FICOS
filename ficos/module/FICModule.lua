@@ -6,7 +6,7 @@
 ---@class FICModule
 ---@field id string
 ---@field version table
-local FICModule = {
+FICModule = {
     id = "moduleid",
     version = {
         major = 1,
