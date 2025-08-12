@@ -13,7 +13,11 @@ os = {
 
 function os:startup()
     print("~ Fic OS v" .. self.version.major .. "." .. self.version.minor .. "." .. self.version.patch .. " by SHsuperCM")
+
     os.runtime = filesystem.doFile("/ficos/runtime.lua")
+    os.moduleManager = filesystem.doFile("/ficos/module/manager.lua")
+
+    os.moduleManager:startup()
 
     os.runtime:run()
 end
