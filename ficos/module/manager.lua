@@ -103,7 +103,7 @@ function moduleManager:startup()
     end
 
     for _, module in pairs(self.loaded) do
-        future.addTask(async(function()
+        os.runtime:add(module, async(function()
             module:load()
         end))
     end
