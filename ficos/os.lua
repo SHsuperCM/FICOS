@@ -13,9 +13,9 @@ os = {
 
 function os:startup()
     print("~ Fic OS v" .. self.version.major .. "." .. self.version.minor .. "." .. self.version.patch .. " by SHsuperCM")
-    while true do
-        sleep(1)
-    end
+    os.runtime = filesystem.doFile("/ficos/runtime.lua")
+
+    os.runtime:run()
 end
 
 return os
