@@ -69,7 +69,16 @@ function moduleManager:startup()
     filesystem.doFile("/ficos/module/FICModule.lua")
 
     for _, module in pairs(filesystem.doFile("/ficos/config/startupModules.lua")) do
-        self:load(module)
+        local loaded, err = pcall(function()
+            self:load(module)
+        end)
+
+        if not loaded then
+            print("Startup module " .. module .. " errored while loading.")
+            if err ~= nil then
+                print(err)
+            end
+        end
     end
 end
 
