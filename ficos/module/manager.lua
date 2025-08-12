@@ -78,6 +78,8 @@ function moduleManager:unload(id)
 
     self.loaded[id]:unload()
 
+    os.runtime:removeByModule(id)
+
     self.loaded[id] = nil
     print("Unloaded module " .. id)
 
