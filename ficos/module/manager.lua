@@ -42,7 +42,7 @@ function moduleManager:load(id)
 
     if not loaded then
         print("Errored loading module file for module " .. id .. "!")
-        error(message)
+        error(err)
     end
 
     loaded, err = pcall(function()
