@@ -22,4 +22,17 @@ function os:startup()
     os.runtime:run()
 end
 
+--- Stop the computer(allowing the bootloader to restart)
+function os:stop()
+    print("Stopping system...")
+    os.moduleManager:shutdown()
+    os.runtime.shouldRun = false
+end
+
+--- Completely shut down the computer, requires manually restarting it
+function os:shutdown()
+    self:stop()
+    computer.stop()
+end
+
 return os
