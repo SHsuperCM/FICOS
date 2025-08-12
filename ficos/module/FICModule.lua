@@ -6,6 +6,7 @@
 ---@class FICModule
 ---@field id string
 ---@field version table
+---@field unload fun()
 FICModule = {
     id = "moduleid",
     version = {
@@ -21,7 +22,7 @@ FICModule = {
 ---@param patch number version patch
 ---@return FICModule
 function FICModule.new(id, major, minor, patch)
-    return {
+    local module = {
         id = id,
         version = {
             major = major,
@@ -29,4 +30,10 @@ function FICModule.new(id, major, minor, patch)
             patch = patch
         }
     }
+
+    function module:unload()
+
+    end
+
+    return module
 end

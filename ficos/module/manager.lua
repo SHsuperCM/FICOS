@@ -8,7 +8,13 @@ local moduleManager = {
 }
 
 ---@param id string
----@return FICModule
+---@return boolean true if the module is currently loaded
+function moduleManager:isLoaded(id)
+    return self.loaded[id:lower()] ~= nil
+end
+
+---@param id string
+---@return FICModule gets or loads the requested module
 function moduleManager:get(id)
     id = id:lower()
 
@@ -21,11 +27,11 @@ function moduleManager:get(id)
 end
 
 ---@param id string
----@return FICModule
+---@return FICModule loads the requested module, errors if fails or already loaded
 function moduleManager:load(id)
     id = id:lower()
 
-    if moduleManager.loaded[id] ~= nil then
+    if self:isLoaded(id) then
         error("Module " .. id .. " is already loaded!")
     end
 
@@ -56,13 +62,26 @@ function moduleManager:load(id)
         error(err)
     end
 
-    moduleManager.loaded[id] = module
+    print("Loaded module " .. id)
+    self.loaded[id] = module
     return module
 end
 
 ---@param id string
+---@return boolean true if the module was loaded before and has unloaded
 function moduleManager:unload(id)
+    id = id:lower()
 
+    if not self:isLoaded(id) then
+        return false
+    end
+
+    self.loaded[id]:unload()
+
+    self.loaded[id] = nil
+    print("Unloaded module " .. id)
+
+    return true
 end
 
 function moduleManager:startup()
