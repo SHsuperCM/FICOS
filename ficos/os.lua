@@ -14,19 +14,19 @@ os = {
 function os:startup()
     print("~ Fic OS v" .. self.version.major .. "." .. self.version.minor .. "." .. self.version.patch .. " by SHsuperCM")
 
-    os.runtime = filesystem.doFile("/ficos/runtime.lua")
-    os.moduleManager = filesystem.doFile("/ficos/module/manager.lua")
+    self:runtime = filesystem.doFile("/ficos/runtime.lua")
+    self:moduleManager = filesystem.doFile("/ficos/module/manager.lua")
 
-    os.moduleManager:startup()
+    self:moduleManager:startup()
 
-    os.runtime:run()
+    self:runtime:run()
 end
 
 --- Stop the computer(allowing the bootloader to restart)
 function os:stop()
     print("Stopping system...")
-    os.moduleManager:shutdown()
-    os.runtime.shouldRun = false
+    self:moduleManager:shutdown()
+    self:runtime.shouldRun = false
 end
 
 --- Completely shut down the computer, requires manually restarting it
