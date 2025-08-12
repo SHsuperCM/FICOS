@@ -67,6 +67,10 @@ end
 
 function moduleManager:startup()
     filesystem.doFile("/ficos/module/FICModule.lua")
+
+    for _, module in pairs(filesystem.doFile("/ficos/config/startupModules.lua")) do
+        self:load(module)
+    end
 end
 
 function moduleManager:shutdown()
