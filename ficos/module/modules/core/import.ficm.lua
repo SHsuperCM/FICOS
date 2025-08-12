@@ -11,7 +11,7 @@ local module = FICModule.new("core.import", 1, 0, 0)
 function import(id)
     local loadedModule
     local loaded, err = pcall(function()
-        loadedModule = os.moduleManager:load()
+        loadedModule = os.moduleManager:load(id)
     end)
 
     if not loaded then
