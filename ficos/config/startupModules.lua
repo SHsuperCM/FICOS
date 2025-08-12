@@ -4,5 +4,6 @@
 ---
 
 return {
-    "core.import"
+    "core.import",
+    "test.test1"
 }
