@@ -6,6 +6,7 @@
 ---@class FICModule
 ---@field id string
 ---@field version table
+---@field oad fun()
 ---@field unload fun()
 FICModule = {
     id = "moduleid",
@@ -30,6 +31,10 @@ function FICModule.new(id, major, minor, patch)
             patch = patch
         }
     }
+
+    function module:load()
+
+    end
 
     function module:unload()
 

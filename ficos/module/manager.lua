@@ -62,7 +62,7 @@ function moduleManager:load(id)
         error(err)
     end
 
-    print("Loaded module " .. id)
+    print("Loading module " .. id)
     self.loaded[id] = module
     return module
 end
@@ -98,6 +98,12 @@ function moduleManager:startup()
                 print(err)
             end
         end
+    end
+
+    for _, module in pairs(self.loaded) do
+        future.addTask(async(function()
+            module:load()
+        end))
     end
 end
 

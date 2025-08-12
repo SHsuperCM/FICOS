@@ -4,13 +4,13 @@
 ---
 
 local runtime = {
-    shouldRun = true,
-    runRate = 0.01
+    shouldRun = true
 }
 
 function runtime:run()
     while self.shouldRun do
-        sleep(self.runRate)
+        future.run()
+        coroutine.yield()
     end
 end
 
