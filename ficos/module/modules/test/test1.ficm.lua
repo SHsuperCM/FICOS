@@ -8,9 +8,14 @@ local module = FICModule.new("test.test1", 1, 0, 0)
 
 import("core.exec")
 
-thread(function()
+thread(module, function()
     sleep(2)
     print("yippe!!!")
+end)
+
+exec(module, function()
+    sleep(10)
+    os:shutdown()
 end)
 
 return module

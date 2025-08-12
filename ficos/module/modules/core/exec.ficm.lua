@@ -4,21 +4,21 @@
 ---
 
 ---@type FICModule
-local module = FICModule.new("core.exec", 1, 0, 0)
+local module = FICModule.new("core.exec", 2, 0, 0)
 
 ---@param func fun()
 ---@return Future
-function exec(func)
+function exec(mdl, func)
     local fut = async(func)
 
-    future.addTask(fut)
+    os.runtime:add(mdl, fut)
 
     return fut
 end
 
 ---@param func fun()
 ---@return Future
-function thread(func)
+function thread(mdl, func)
     local fut = async(function()
         while true do
             func()
@@ -26,10 +26,9 @@ function thread(func)
         end
     end)
 
-    future.addTask(fut)
+    os.runtime:add(mdl, fut)
 
     return fut
 end
-
 
 return module
