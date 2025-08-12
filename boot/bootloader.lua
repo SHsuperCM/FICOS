@@ -31,7 +31,17 @@ end
 local lastStartup
 while true do
     lastStartup = computer.time()
-    os:startup()
+    local started, err = pcall(function()
+        os:startup()
+    end)
+
+    if not started then
+        print("Operating system experienced an uncaught error!")
+        if err ~= nil then
+            print(err)
+        end
+    end
+
     if computer.time() - lastStartup > 1 then
         print("Restarting...")
         os = filesystem.doFile(osMeta.file)
