@@ -50,10 +50,12 @@ end
 ---@field activeGPU FINComputerGPUT2 Bound GPU used for rendering
 ---@field screens table<string, Object>
 ---@field renderers GraphicsRenderer[]
+---@field unboundListeners (fun(name:string):boolean)[]
 Graphics = {
     activeGPU = nil,
     screens = {},
-    renderers = {}
+    renderers = {},
+    unboundListeners = {}
 }
 Graphics.__index = Graphics
 
@@ -118,9 +120,23 @@ function Graphics:unbind(name)
         module.boundScreens[screen] = nil
     end
 
+    local kept = {}
+
+    for _, listener in pairs(self.unboundListeners) do
+        if listener(name) then
+            table.insert(kept, listener)
+        end
+    end
+
+    self.unboundListeners = kept
+
     return self
 end
 
+---@param listener fun(name:string):boolean
+function Graphics:unboundListener(listener)
+    table.insert(self.unboundListeners, listener)
+end
 
 ---@return FINComputerGPUT2
 function Graphics.gpuAny()
