@@ -6,6 +6,12 @@
 ---@type FICModule
 local module = FICModule.new("console.graphics", 1, 0, 0)
 
+---@type number natural renderer order
+module.natural = 0.0
+
+---@type table<any, fun()> static screen rebinding tracker, gets executed when rebinding a screen
+module.boundScreens = {}
+
 ---@class GraphicsRenderer
 ---@field order number order position of this renderer, lower runs first
 GraphicsRenderer = {
@@ -33,7 +39,6 @@ function GraphicsRenderer.new(order, draw)
     }, GraphicsRenderer)
 end
 
-module.natural = 0.0
 ---@param draw fun(gpu:FINComputerGPUT2, screen:string, width:number, height:number, graphics:Graphics)
 ---@return GraphicsRenderer
 function GraphicsRenderer.new(draw)
@@ -90,13 +95,28 @@ end
 function Graphics:bind(name, screen)
     self.screen[name] = screen
 
+    local prev = module.boundScreens[screen]
+    if prev ~= nil then
+        prev()
+    end
+
+    local graphicsRef = self -- final
+    local nameInGraphics = name -- final
+    module.boundScreens[screen] = function()
+        graphicsRef:unbind(nameInGraphics)
+    end
+
     return self
 end
 
 ---@param name string
 ---@return self
 function Graphics:unbind(name)
-    self.screen[name] = nil
+    local screen = self.screen[name]
+    if screen ~= nil then
+        self.screen[name] = nil
+        module.boundScreens[screen] = nil
+    end
 
     return self
 end
